@@ -13,5 +13,5 @@ const schema = new mongoose.Schema({
     logged: { type: Boolean, required: true },
 });
 
-const User = mongoose.model('admins', schema);
+const User = mongoose.model('users', schema);
 module.exports = User;
