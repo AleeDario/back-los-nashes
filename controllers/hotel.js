@@ -15,8 +15,43 @@ const controller = {
                 message: error.message,
             })
         }
+    },
+
+    read: async (req, res) => {
+        let query = {}
+        let order = {}
+
+        if (req.query.name) {
+            query = {
+                ...query,
+                name: { $regex: req.query.name, $options: 'i' },
+            };
+        }
+        if (req.query.order) {
+            order = { name: req.query.order }
+        }
+
+        try {
+            let allHotels = await Hotel.find(query).sort(order)
+            if (allHotels) {
+                res.status(200).json({
+                    response: allHotels,
+                    success: true,
+                    message: "all hotels have been found"
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "hotels not found"
+                })
+            }
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
+        }
     }
 }
-
 
 module.exports = controller
