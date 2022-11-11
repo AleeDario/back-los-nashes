@@ -84,7 +84,7 @@ let hotels = [
             "https://images.xceed.me/clubs/covers/sant-jordi-club-club-barcelona-xceed-301b.jpg"
         ],
         "capacity": 17000,
-        "cityId": "636d975fff2f61c6a45710b1",
+        "cityId": "636ea78d7fcf68979508010a",
         "userId": "636d82c86529ebe93bbef920"
     },
     {

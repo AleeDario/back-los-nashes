@@ -81,7 +81,57 @@ const controller = {
                 message: error.message,
             });
         }
-    }
+    },
+
+    update: async (req, res) => {
+        let { id } = req.params;
+
+        try {
+            let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true });
+            if(city){
+                res.status(200).json({
+                    success: true,
+                    message: 'City updated',
+                    data: city,
+                });
+            }else{
+                res.status(404).json({
+                    success: false,
+                    message: 'City not found',
+                });
+            }
+        }catch (error) {
+            res.status(400).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    },
+
+    destroyOne: async (req, res) => {
+        let { id } = req.params;
+
+        try {
+            let city = await City.findOneAndDelete({ _id: id });
+            if(city){
+                res.status(200).json({
+                    success: true,
+                    message: 'City deleted',
+                    data: city,
+                });
+            }else{
+                res.status(404).json({
+                    success: false,
+                    message: 'User not found',
+                });
+            }
+    }catch (error) {
+            res.status(400).json({
+                success: false,
+                message: error.message,
+            });
+        }
+    },
 }
 
 module.exports = controller;
