@@ -1,6 +1,6 @@
 let router = require ('express').Router()
 
-let {create} = require ('../controllers/hotels')
+let {create} = require ('../controllers/hotel')
 
 router.post('/', create)
 
