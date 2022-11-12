@@ -1,8 +1,9 @@
 let router = require('express').Router();
 
-let {read, create} = require('../controllers/show');
+let {create, read, update} = require('../controllers/show');
 
-router.get('/', read);
 router.post('/', create);
+router.get('/', read);
+router.patch('/:id', update);
 
 module.exports = router;
