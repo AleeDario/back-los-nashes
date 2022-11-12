@@ -1,6 +1,21 @@
 const Show = require('../models/Show');
 
 const controller = {
+    create: async (req, res) => {
+        try {
+            let new_show = await Show.create(req.body)
+            res.status(201).json({
+                id: new_show._id,
+                success: true,
+                message: "show successfully created"
+            })
+        } catch (error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
+        }
+    },
 
     read: async (req, res) => {
 
@@ -33,19 +48,28 @@ const controller = {
         }
     },
 
-    create: async (req, res) => {
+    update: async (req, res) => {
+        let { id } = req.params;
+
         try {
-            let new_show = await Show.create(req.body)
-            res.status(201).json({
-                id: new_show._id,
-                success: true,
-                message: "show successfully created"
-            })
+            let oneShow = await Show.findOneAndUpdate({ _id: id }, req.body, { new: true });
+            if (oneShow) {
+                res.status(200).json({
+                    success: true,
+                    message: 'Show succesfully updated',
+                    data: oneShow,
+                });
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: 'Show not found',
+                });
+            }
         } catch (error) {
             res.status(400).json({
                 success: false,
-                message: error.message
-            })
+                message: error.message,
+            });
         }
     }
 }
