@@ -8,6 +8,7 @@ const controller = {
                 id: new_hotel._id,
                 succes: true,
                 message: "new hotel successfully created",
+                new_hotel,
             })
         } catch (error) {
             res.status(400).json({
