@@ -1,11 +1,16 @@
 let router = require('express').Router()
 
 let { create, read, readOne, update, destroyOne } = require('../controllers/hotel')
+const schema = require('../schemas/hotel')
+const validator = require('../middlewares/validator')
 
-router.post('/', create)
-router.get('/', read)
-router.get('/:id', readOne)
-router.patch('/:id', update)
-router.delete('/:id', destroyOne)
+router.route('/')
+    .post(validator(schema), create)
+    .get(read)
+
+router.route('/:id')
+    .get(readOne)
+    .patch(update)
+    .delete(destroyOne)
 
 module.exports = router;
