@@ -26,9 +26,15 @@ const controller = {
             };
         }
 
+        if (req.query.userId) {
+            query = {
+                userId: req.query.userId
+            };
+        }
+
         try {
             let allShows = await Show.find(query);
-            if (allShows) {
+            if (allShows.length > 0) {
                 res.status(200).json({
                     success: true,
                     message: 'All Shows',
@@ -38,6 +44,7 @@ const controller = {
                 res.status(404).json({
                     success: false,
                     message: 'No Shows found',
+                    data: [],
                 });
             }
         } catch (error) {
