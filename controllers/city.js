@@ -43,7 +43,7 @@ const controller = {
 
         try {
             let allCities = await City.find(query);
-            if (allCities) {
+            if (allCities.length>0) {
                 res.status(200).json({
                     success: true,
                     message: 'All cities',
@@ -53,6 +53,7 @@ const controller = {
                 res.status(404).json({
                     success: false,
                     message: 'No cities found',
+                    data: [],
                 });
             }
         } catch (error) {
@@ -95,7 +96,7 @@ const controller = {
 
         try {
             let city = await City.findOneAndUpdate({ _id: id }, req.body, { new: true });
-            if(city){
+            if(city) {
                 res.status(200).json({
                     success: true,
                     message: 'City updated',
@@ -120,7 +121,7 @@ const controller = {
 
         try {
             let city = await City.findOneAndDelete({ _id: id });
-            if(city){
+            if(city) {
                 res.status(200).json({
                     success: true,
                     message: 'City deleted',
@@ -129,7 +130,7 @@ const controller = {
             }else{
                 res.status(404).json({
                     success: false,
-                    message: 'User not found',
+                    message: 'City not found',
                 });
             }
     }catch (error) {
