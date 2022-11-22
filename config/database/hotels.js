@@ -73,7 +73,7 @@ let hotels = [
             "https://static.dezeen.com/uploads/2022/02/Millennium-Dome-by-Zakgollop_dezeen-hero.jpg"
         ],
         "capacity": 20000,
-        "cityId": "636d975fff2f61c6a45710b0",
+        "cityId": "637c31fc8ff3e79ef66f37f6",
         "userId": "636d82c86529ebe93bbef91f"
     },
     {
@@ -84,7 +84,7 @@ let hotels = [
             "https://images.xceed.me/clubs/covers/sant-jordi-club-club-barcelona-xceed-301b.jpg"
         ],
         "capacity": 17000,
-        "cityId": "636ea78d7fcf68979508010a",
+        "cityId": "637c32038ff3e79ef66f37f8",
         "userId": "636d82c86529ebe93bbef920"
     },
     {
@@ -106,7 +106,7 @@ let hotels = [
             "https://www.l-acoustics.com/wp-content/uploads/2022/01/LA_GrandWest_1_ed.jpeg"
         ],
         "capacity": 5000,
-        "cityId": "636d975fff2f61c6a45710b3",
+        "cityId": "637c32088ff3e79ef66f37fa",
         "userId": "636d975fff2f61c6a45710b3"
     },
     {
@@ -117,7 +117,7 @@ let hotels = [
             "https://casacruxada.com/wp-content/uploads/2022/07/casa_cruxada_white_patio_escalera.jpg"
         ],
         "capacity": 1000,
-        "cityId": "636d975fff2f61c6a45710b4",
+        "cityId": "637c32108ff3e79ef66f37fc",
         "userId": "636d82c86529ebe93bbef91f"
     },
     {
@@ -128,7 +128,7 @@ let hotels = [
             "https://static.vecteezy.com/system/resources/previews/001/435/803/large_2x/sydney-australia-2020-sydney-opera-house-at-night-free-photo.jpeg"
         ],
         "capacity": 5738,
-        "cityId": "636d975fff2f61c6a45710b5",
+        "cityId": "637c321b8ff3e79ef66f37fe",
         "userId": "636d82c86529ebe93bbef920"
     }
 ]

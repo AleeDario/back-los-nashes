@@ -35,6 +35,12 @@ const controller = {
             };
         }
 
+        if (req.query.userId) {
+            query = {
+                userId: req.query.userId
+            };
+        }
+
         try {
             let allCities = await City.find(query);
             if (allCities) {
