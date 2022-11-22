@@ -27,10 +27,15 @@ const controller = {
                 cityId: req.query.cityId
             };
         }
+        if (req.query.userId) {
+            query = {
+                userId: req.query.userId
+            };
+        }
 
         try {
             let allItineraries = await Itinerary.find(query);
-            if (allItineraries) {
+            if (allItineraries.length > 0) {
                 res.status(200).json({
                     success: true,
                     message: 'All itineraries',
@@ -40,6 +45,7 @@ const controller = {
                 res.status(404).json({
                     success: false,
                     message: 'No itineraries found',
+                    data: [],
                 });
             }
         } catch (error) {
