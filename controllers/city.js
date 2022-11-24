@@ -35,10 +35,10 @@ const controller = {
             };
         }
 
-        if (req.query.userId) {
+        if (req.query.userId){
             query = {
                 userId: req.query.userId
-            };
+            }
         }
 
         try {

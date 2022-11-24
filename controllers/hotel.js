@@ -1,3 +1,4 @@
+const { query } = require('express');
 const Hotel = require('../models/Hotel');
 
 const controller = {
@@ -32,7 +33,9 @@ const controller = {
             order = { name: req.query.order }
         }
         if (req.query.userId){
-            query = {userId: req.query.userId}
+            query = {
+                userId: req.query.userId
+            }
         }
 
         try {
