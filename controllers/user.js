@@ -2,7 +2,8 @@ const User = require('../models/User');
 const crypto = require('crypto');
 const bcryptjs = require('bcryptjs')
 const accountVerificationEmail = require('./accountVerificationEmail');
-const { userSignedUpResponse, userNotFoundResponse } = require('../config/responses');
+const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse } = require('../config/responses');
+const jwr = require ('jsonwebtoken')
 
 
 const controller = {
@@ -36,7 +37,37 @@ const controller = {
         }catch(error){
             next(error)
         }
-    }
+    },
+
+    ingresar: async (req, res, next) =>{
+        const {password} = req.body;
+        const {user} = req;
+        try{
+            const verifyPassword = bcryptjs.compareSync(password, user.password)
+            console.log(password)
+            console.log(user.password)
+            if(verifyPassword){
+                await User.findOneAndUpdate({email: user.email},{_id: user.id}, {online:true})
+                const token = jwt.sign(
+                    {
+                        name: user.name,
+                        photo: user.photo,
+                        online: user.online
+                    },
+                process.env.KEY_JWT,
+                {expiresIn: 60 * 6 * 24}
+                )
+                return res.status(200).json({
+                    response: {user, token},
+                    success: true,
+                    message:'Hi ' + user.name + ', we are happy to see you again'
+                })
+            }
+            return invalidCredentialsResponse(req,res)
+        } catch(error){
+            next(error)
+        }
+    },
 }
 
 module.exports = controller;
