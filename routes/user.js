@@ -1,7 +1,10 @@
-let router = require('express').Router();
+const router = require('express').Router();
+const schema = require('../schemas/user');
+const validator = require('../middlewares/validator');
+const accountExistsSignUp = require('../middlewares/accountExistsSignUp')
+const { register, verify } = require('../controllers/user');
 
-let { create } = require('../controllers/user');
-
-router.post('/', create);
+router.post('/sign-up',validator(schema),accountExistsSignUp, register);
+router.get('/verify/:code', verify);
 
 module.exports = router;
