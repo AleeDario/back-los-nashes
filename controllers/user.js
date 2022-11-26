@@ -2,7 +2,7 @@ const User = require('../models/User');
 const crypto = require('crypto');
 const bcryptjs = require('bcryptjs')
 const accountVerificationEmail = require('./accountVerificationEmail');
-const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse } = require('../config/responses');
+const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse, userSignedOutResponse } = require('../config/responses');
 const jwt = require('jsonwebtoken')
 
 
@@ -56,6 +56,7 @@ const controller = {
                     name: user.name,
                     email: user.email,
                     photo: user.photo,
+                    role: user.role,
                 }
                 return res.status(200).json({
                     response: { user, token },
@@ -83,6 +84,17 @@ const controller = {
         }catch(error){
             next(error)
         }
+    },
+
+    logout: async (req, res, next) => {
+        let { user } = req;
+        try{
+            let userLogout = await User.findOneAndUpdate({ mail: user.email }, { online: false }, { new: true })
+            return userSignedOutResponse(req, res)
+        }catch(error){
+            next(error)
+        }
+
     }
 }
 
