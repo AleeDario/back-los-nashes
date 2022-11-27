@@ -7,7 +7,7 @@ const accountExistsSignUp = require('../middlewares/accountExistsSignUp')
 const accountExistsSignIn = require('../middlewares/accountExistsSignIn')
 const accountHasBeenVerified = require('../middlewares/accountHasBeenVerified')
 const mustSignIn = require('../middlewares/mustSignIn')
-const { register, verify, login, loginWithToken, logout } = require('../controllers/user');
+const { register, verify, login, loginWithToken, logout, readOne, update } = require('../controllers/user');
 
 router.post('/sign-up',validator(schema),accountExistsSignUp, register);
 router.post('/sign-in', validator(schemaSignin), accountExistsSignIn, accountHasBeenVerified, login)
@@ -15,5 +15,10 @@ router.post('/sign-out', passport.authenticate('jwt', { session: false }), logou
 
 router.get('/verify/:code', verify);
 router.post('/token', passport.authenticate('jwt', { session: false }), mustSignIn, loginWithToken)
+
+
+router.route('/me/:id')
+    .get(readOne)
+    .patch(update)
 
 module.exports = router;
