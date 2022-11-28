@@ -69,6 +69,7 @@ const controller = {
         let { id } = req.params
 
         try {
+            
             let city = await City.findOne({ _id: id }).populate({ path: 'userId', select: 'name photo -_id' });
 
             if (city) {

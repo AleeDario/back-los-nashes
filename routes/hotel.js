@@ -5,7 +5,7 @@ const schema = require('../schemas/hotel')
 const validator = require('../middlewares/validator')
 
 router.route('/')
-    .post(validator(schema), create)
+    .post(passport.authenticate("jwt", { session: false }),validator(schema), create)
     .get(read)
 
 router.route('/:id')

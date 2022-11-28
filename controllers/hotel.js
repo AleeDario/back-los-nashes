@@ -1,7 +1,7 @@
-const { query } = require('express');
 const Hotel = require('../models/Hotel');
 
 const controller = {
+
     create: async (req, res) => {
         try {
             let new_hotel = await Hotel.create(req.body);
