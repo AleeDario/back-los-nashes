@@ -58,4 +58,32 @@ describe('hotels', function (done) {
             done();
         });
     })
+    it("Delete a hotel successfully", function (done) {
+        token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODExY2YwZmY5MmM4NTgxNjRmNDVhNSIsImlhdCI6MTY2OTYwMTUxMiwiZXhwIjoxNjY5Njg3OTEyfQ.tkSBoTCNfWDu78-d2vBlLrU32_uf9NkPFV4nxfV7-QM'
+        idHotel = '6384199a89e7ab524f87687e'
+        request(app)
+            .delete(`/api/hotels/${idHotel}`)
+            .auth(token, { type: "bearer" })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                done();
+            });
+    });
+    it("Delete a show successfully", function (done) {
+        token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzODExY2YwZmY5MmM4NTgxNjRmNDVhNSIsImlhdCI6MTY2OTYwMTUxMiwiZXhwIjoxNjY5Njg3OTEyfQ.tkSBoTCNfWDu78-d2vBlLrU32_uf9NkPFV4nxfV7-QM'
+        idShow = '638417d1f2e8b4847f796021'
+        request(app)
+            .delete(`/api/shows/${idShow}`)
+            .auth(token, { type: "bearer" })
+            .expect(200)
+            .end(function (err, res) {
+                if (err) {
+                    return done(err);
+                }
+                done();
+            });
+    });
 })
