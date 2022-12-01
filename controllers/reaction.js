@@ -31,6 +31,12 @@ const controller = {
             };
         }
 
+        if (req.query.showId) {
+            query = {
+                showId: req.query.showId
+            };
+        }
+
         if (req.query.name) {
             query = {
                 ...query,
@@ -74,49 +80,40 @@ const controller = {
             query = { itineraryId: req.query.itineraryId };
         }
 
+        if (req.query.showId) {
+            query = { showId: req.query.showId };
+        }
+
         if (req.query.userId) {
             query = { userId: req.query.userId };
         }
         try {
-            if (req.query.itineraryId) {
 
-                let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
-                if (reactions.length > 0) {
+            let reactions = await Reaction.find(query)
+                .populate({ path: 'userId', select: 'name lastName photo' })
+                .populate({ path: 'showId', select: 'name photo -_id' })
+                .populate({ path: 'itineraryId', select: 'name photo -_id' })
+                
+            if (reactions.length > 0) {
 
-                    let lengthOfReactions = {}
-                    reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)
+                let lengthOfReactions = {}
+                reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)
 
-                    res.status(200).json({
-                        lengthOfReactions,
-                        data: reactions,
-                        success: true,
-                        message: `All reactions of the itineraryId ${req.query.itineraryId}`,
-                    })
-                } else {
-                    res.status(404).json({
-                        success: false,
-                        message: 'No reactions found',
-                        data: [],
-                    });
-                }
-            } else if (req.query.userId) {
-                let reactions = await Reaction.find(query).populate({ path: 'itineraryId', select: 'name lastName photo -_id' })
-                if (reactions.length > 0) {
-
-                    res.status(200).json({
-                        data: reactions,
-                        success: true,
-                        message: `All reactions`,
-                    })
-                } else {
-                    res.status(404).json({
-                        success: false,
-                        message: 'No reactions found',
-                        data: [],
-                    });
-                }
+                res.status(200).json({
+                    lengthOfReactions,
+                    data: reactions,
+                    success: true,
+                    message: `All reactions`,
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: 'No reactions found',
+                    data: [],
+                });
             }
         } catch (error) {
+            console.log(error)
             res.status(400).json({
                 success: false,
                 message: error.message,
