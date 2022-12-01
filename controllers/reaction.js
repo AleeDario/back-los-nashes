@@ -44,18 +44,14 @@ const controller = {
                 if (reaction.userId.includes(Id)) {
                     await Reaction.findOneAndUpdate({ _id: reaction._id }, { $pull: { userId: Id } }, { new: true })
                     res.status(200).json({
-                        name: reaction.name,
                         message: `Event dis${reaction.name}`,
                         success: true,
-                        reactioned: false,
                     })
                 } else {
                     await Reaction.findOneAndUpdate({ _id: reaction._id }, { $push: { userId: Id } }, { new: true })
                     res.status(200).json({
-                        name: reaction.name,
                         message: `Event ${reaction.name}`,
                         success: true,
-                        reactioned: true,
                     })
                 }
             } else {
@@ -77,27 +73,48 @@ const controller = {
         if (req.query.itineraryId) {
             query = { itineraryId: req.query.itineraryId };
         }
+
+        if (req.query.userId) {
+            query = { userId: req.query.userId };
+        }
         try {
-            console.log(query)
-            let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
-            if (reactions.length > 0) {
+            if (req.query.itineraryId) {
 
-                let lengthOfReactions = {}
-                reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)
+                let reactions = await Reaction.find(query).populate({ path: 'userId', select: 'name lastName photo' })
+                if (reactions.length > 0) {
 
-                res.status(200).json({
-                    lengthOfReactions,
-                    data: reactions,
-                    id: req.query.itineraryId,
-                    success: true,
-                    message: `All reactions of the itineraryId ${req.query.itineraryId}`,
-                })
-            } else {
-                res.status(404).json({
-                    success: false,
-                    message: 'No reactions found',
-                    data: [],
-                });
+                    let lengthOfReactions = {}
+                    reactions.forEach(reaction => lengthOfReactions[reaction.name] = reaction.userId.length)
+
+                    res.status(200).json({
+                        lengthOfReactions,
+                        data: reactions,
+                        success: true,
+                        message: `All reactions of the itineraryId ${req.query.itineraryId}`,
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'No reactions found',
+                        data: [],
+                    });
+                }
+            } else if (req.query.userId) {
+                let reactions = await Reaction.find(query).populate({ path: 'itineraryId', select: 'name lastName photo -_id' })
+                if (reactions.length > 0) {
+
+                    res.status(200).json({
+                        data: reactions,
+                        success: true,
+                        message: `All reactions`,
+                    })
+                } else {
+                    res.status(404).json({
+                        success: false,
+                        message: 'No reactions found',
+                        data: [],
+                    });
+                }
             }
         } catch (error) {
             res.status(400).json({
@@ -108,6 +125,30 @@ const controller = {
         }
     },
 
+    deleteReaction: async (req, res) => {
+        let { id } = req.params
+
+        try {
+            let reaction = await Reaction.findOneAndUpdate({ _id: id }, { $pull: { userId: req.user.id } }, { new: true })
+            if (reaction) {
+                res.status(200).json({
+                    data: reaction,
+                    message: `reaction deleted`,
+                    success: true,
+                })
+            } else {
+                res.status(404).json({
+                    message: `reaction not found`,
+                    success: false,
+                })
+            }
+        } catch (error) {
+            res.status(400).json({
+                message: error.message,
+                success: false
+            })
+        }
+    },
 }
 
 module.exports = controller;
